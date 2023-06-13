@@ -2,8 +2,12 @@ import { Grid, GridItem, Show, useColorMode } from "@chakra-ui/react";
 import { NavBar } from "./components/NavBar.tsx";
 import { GameGrid } from "./components/GameGrid.tsx";
 import { GenreList } from "./components/GenreList.tsx";
+import { useState } from "react";
+import { Genre } from "./hooks/useGenres.ts";
 
 function App() {
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+
   const { colorMode } = useColorMode();
   const asideBackgroundColor = colorMode === "light" ? "gray.200" : "";
 
@@ -22,7 +26,7 @@ function App() {
         <NavBar />
       </GridItem>
       <GridItem area="main">
-        <GameGrid />
+        <GameGrid selectedGenre={selectedGenre} />
       </GridItem>
       <Show above="lg">
         <GridItem
@@ -33,7 +37,7 @@ function App() {
           paddingX={5}
           background={asideBackgroundColor}
         >
-          <GenreList />
+          <GenreList onSelectGenre={(genre) => setSelectedGenre(genre)} />
         </GridItem>
       </Show>
     </Grid>

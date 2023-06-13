@@ -1,20 +1,24 @@
 import useGenres, { Genre } from "../hooks/useGenres.ts";
 import { TbError404 } from "react-icons/tb";
 import {
+  Button,
   HStack,
   Icon,
   Image,
   List,
   ListItem,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
 import getCroppedImageUrl from "../services/image-url.ts";
 
-export function GenreList() {
+interface GenreListProps {
+  onSelectGenre: (genre: Genre) => void;
+}
+
+export function GenreList({ onSelectGenre }: GenreListProps) {
   const { data: genres, error, isLoading } = useGenres();
 
-  if (error) return <Icon width={10} height={10} as={TbError404}  />;
+  if (error) return <Icon width={10} height={10} as={TbError404} />;
 
   if (isLoading)
     return (
@@ -30,14 +34,23 @@ export function GenreList() {
   return (
     <List>
       {genres.map((genre: Genre) => (
-        <ListItem key={genre.id} paddingY={"5px"}>
-          <HStack>
+        <ListItem key={genre.id} paddingY={"5px"}   >
+          <HStack display={"flex"}>
             <Image
               boxSize={"32px"}
               borderRadius={8}
               src={getCroppedImageUrl(genre.image_background)}
             />
-            <Text fontSize={"lg"}>{genre.name}</Text>
+            <Button
+              onClick={() => {
+                onSelectGenre(genre);
+              }}
+              fontSize={"lg"}
+              overflow={"hidden"}
+              variant={"link"}
+            >
+              {genre.name}
+            </Button>
           </HStack>
         </ListItem>
       ))}
