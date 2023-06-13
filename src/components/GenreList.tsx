@@ -1,5 +1,6 @@
 import useGenres, { Genre } from "../hooks/useGenres.ts";
 import { TbError404 } from "react-icons/tb";
+import { BiChevronLeft } from "react-icons/bi";
 import {
   Button,
   HStack,
@@ -13,9 +14,10 @@ import getCroppedImageUrl from "../services/image-url.ts";
 
 interface GenreListProps {
   onSelectGenre: (genre: Genre) => void;
+  selectedGenre?: Genre | null;
 }
 
-export function GenreList({ onSelectGenre }: GenreListProps) {
+export function GenreList({ onSelectGenre, selectedGenre }: GenreListProps) {
   const { data: genres, error, isLoading } = useGenres();
 
   if (error) return <Icon width={10} height={10} as={TbError404} />;
@@ -34,7 +36,7 @@ export function GenreList({ onSelectGenre }: GenreListProps) {
   return (
     <List>
       {genres.map((genre: Genre) => (
-        <ListItem key={genre.id} paddingY={"5px"}   >
+        <ListItem key={genre.id} paddingY={"5px"}>
           <HStack display={"flex"}>
             <Image
               boxSize={"32px"}
@@ -45,9 +47,13 @@ export function GenreList({ onSelectGenre }: GenreListProps) {
               onClick={() => {
                 onSelectGenre(genre);
               }}
+              fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
               fontSize={"lg"}
               overflow={"hidden"}
               variant={"link"}
+              rightIcon={
+                genre.id === selectedGenre?.id ? <BiChevronLeft /> : undefined
+              }
             >
               {genre.name}
             </Button>
