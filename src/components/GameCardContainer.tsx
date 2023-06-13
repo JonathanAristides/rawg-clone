@@ -8,7 +8,7 @@ interface GameCardContainerProps {
 
 export function GameCardContainer({ children }: GameCardContainerProps) {
   return (
-    <Box width={cardWidth} borderRadius={10} overflow={"hidden"} >
+    <Box  width={cardWidth}  borderRadius={10} overflow={"hidden"} >
       {children}
     </Box>
   );
