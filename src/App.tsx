@@ -4,10 +4,21 @@ import { GameGrid } from "./components/GameGrid.tsx";
 import { GenreList } from "./components/GenreList.tsx";
 import { useState } from "react";
 import { Genre } from "./hooks/useGenres.ts";
-import {PlatformSelector} from "./components/PlatformSelector.tsx";
+import { PlatformSelector } from "./components/PlatformSelector.tsx";
+import { GamePlatform } from "./hooks/useGames.ts";
+
+export interface GameQuery {
+  genre: Genre | null;
+  platform: GamePlatform | null;
+}
 
 function App() {
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<GamePlatform | null>(
+    null
+  );
 
   const { colorMode } = useColorMode();
   const asideBackgroundColor = colorMode === "light" ? "gray.200" : "";
@@ -26,10 +37,17 @@ function App() {
       <GridItem area="nav" background={asideBackgroundColor}>
         <NavBar />
       </GridItem>
+
       <GridItem area="main">
-        <PlatformSelector />
-        <GameGrid selectedGenre={selectedGenre} />
+        <PlatformSelector
+          selectedPlatform={gameQuery.platform}
+          onSelectPlatform={(platform) =>
+            setGameQuery({ ...gameQuery, platform })
+          }
+        />
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
+
       <Show above="lg">
         <GridItem
           area="aside"
@@ -39,7 +57,10 @@ function App() {
           paddingX={5}
           background={asideBackgroundColor}
         >
-          <GenreList selectedGenre={selectedGenre} onSelectGenre={(genre) => setSelectedGenre(genre)} />
+          <GenreList
+            selectedGenre={gameQuery.genre}
+            onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+          />
         </GridItem>
       </Show>
     </Grid>

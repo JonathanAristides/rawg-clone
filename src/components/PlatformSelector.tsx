@@ -8,8 +8,17 @@ import {
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import usePlatforms from "../hooks/usePlatforms.ts";
+import { GamePlatform } from "../hooks/useGames.ts";
 
-export function PlatformSelector() {
+interface PlatformSelectorProps {
+  onSelectPlatform: (platform: GamePlatform) => void;
+  selectedPlatform: GamePlatform | null;
+}
+
+export function PlatformSelector({
+  onSelectPlatform,
+  selectedPlatform,
+}: PlatformSelectorProps) {
   const { data: platforms, error, isLoading } = usePlatforms();
 
   if (error) return <Text>Platform filtering unavailable</Text>;
@@ -17,11 +26,16 @@ export function PlatformSelector() {
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        Platforms
+        {selectedPlatform?.name || "Platforms"}
       </MenuButton>
       <MenuList>
         {platforms.map((platform) => (
-          <MenuItem key={platform.id}>{platform.name}</MenuItem>
+          <MenuItem
+            onClick={() => onSelectPlatform(platform)}
+            key={platform.id}
+          >
+            {platform.name}
+          </MenuItem>
         ))}
       </MenuList>
     </Menu>
