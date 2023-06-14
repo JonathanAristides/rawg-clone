@@ -19,7 +19,7 @@ export function PlatformSelector({
   onSelectPlatform,
   selectedPlatform,
 }: PlatformSelectorProps) {
-  const { data: platforms, error, isLoading } = usePlatforms();
+  const { data: platforms, error } = usePlatforms();
 
   if (error) return <Text>Platform filtering unavailable</Text>;
 
