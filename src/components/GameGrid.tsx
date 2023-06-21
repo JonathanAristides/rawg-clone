@@ -10,11 +10,7 @@ interface GameGridProps {
 }
 
 export function GameGrid({ gameQuery }: GameGridProps) {
-  const {
-    data: games,
-    error,
-    isLoading,
-  } = useGames(gameQuery);
+  const { data: games, error, isLoading } = useGames(gameQuery);
   const skeleton = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
