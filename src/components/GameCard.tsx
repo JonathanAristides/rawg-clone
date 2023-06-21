@@ -3,9 +3,9 @@ import {
   Card,
   CardBody,
   Heading,
-  Wrap,
   Image,
   useColorMode,
+  Wrap,
 } from "@chakra-ui/react";
 import { PlatformIconList } from "./PlatformIconList.tsx";
 import { CriticScore } from "./CriticScore.tsx";
@@ -20,16 +20,16 @@ export function GameCard({ game }: GameCardProps) {
   const cardBackgroundColor = colorMode === "light" ? "gray.200" : "";
 
   return (
-    <Card  bg={cardBackgroundColor}>
+    <Card bg={cardBackgroundColor}>
       <Image src={getCroppedImageUrl(game.background_image)}></Image>
       <CardBody>
-        <Heading fontSize={"2xl"}>{game.name}</Heading>
-        <Wrap align={"center"}>
+        <Wrap justify={"space-between"} align={"center"} marginBottom={3}>
           <PlatformIconList
             platforms={game.parent_platforms.map((parent) => parent.platform)}
           />
           <CriticScore score={game.metacritic} />
         </Wrap>
+        <Heading fontSize={"2xl"}>{game.name}</Heading>
       </CardBody>
     </Card>
   );

@@ -2,7 +2,7 @@ import useGenres, { Genre } from "../hooks/useGenres.ts";
 import { TbError404 } from "react-icons/tb";
 import { BiChevronLeft } from "react-icons/bi";
 import {
-  Button,
+  Button, Heading,
   HStack,
   Icon,
   Image,
@@ -35,18 +35,22 @@ export function GenreList({ onSelectGenre, selectedGenre }: GenreListProps) {
 
   return (
     <List>
+      <Heading paddingBottom={5} fontSize={"3xl"} >Genres</Heading>
       {genres.map((genre: Genre) => (
         <ListItem key={genre.id} paddingY={"5px"}>
           <HStack display={"flex"}>
             <Image
               boxSize={"32px"}
               borderRadius={8}
+              objectFit={"cover"}
               src={getCroppedImageUrl(genre.image_background)}
             />
             <Button
               onClick={() => {
                 onSelectGenre(genre);
               }}
+              whiteSpace={"normal"}
+              textAlign={"left"}
               fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
               fontSize={"lg"}
               overflow={"hidden"}
